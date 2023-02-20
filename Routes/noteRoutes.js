@@ -1,6 +1,6 @@
 const express = require('express')
 const router = express.Router();
-const {tester,addNote,deleteNote,getAllnotes,findById,updateNote, searchNote, generateExcelFromDbWithoutClient, dowloadExcel, generatePDFfromHtml, dowloadPDF, generatePDFfromHtmlBodyData} = require('../Controllers/noteControllers');
+const {tester,addNote,deleteNote,getAllnotes,findById,updateNote, searchNote, generateExcelFromDbWithoutClient, dowloadExcel, generatePDFfromHtml, dowloadPDF, generatePDFfromHtmlBodyData, handlePagination} = require('../Controllers/noteControllers');
 
 // routes as middelwares
 router.get('/msg',tester);
@@ -15,4 +15,6 @@ router.get('/note/dowloadexcel',dowloadExcel)
 router.get('/note/generatepdfromhtml',generatePDFfromHtml)
 router.get('/note/dowloadpdf',dowloadPDF)
 router.post('/note/generatepdfromhtmlbodydata',generatePDFfromHtmlBodyData)
+router.get('/note/pagination',handlePagination)
+
 module.exports=router;

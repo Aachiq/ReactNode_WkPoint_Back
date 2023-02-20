@@ -206,3 +206,35 @@ exports.generatePDFfromHtmlBodyData = (req,res)=>{
     console.error(error);
   });
 }
+
+exports.handlePagination = (req,res)=> {
+  let page;
+  if(!req.query.page){
+    //page = 0;
+    page = 1;
+  }else{
+    page = req.query.page;
+  }
+  
+  db.query("SELECT * FROM product",(err,result)=>{
+    const item_lenght = result.length;
+    //console.log(item_lenght);
+    const items_per_page = 10;
+    const number_of_page = item_lenght / items_per_page;
+    //console.log(number_of_page);
+    let page_first_result = (page - 1) * items_per_page;
+    console.log(page_first_result);
+    const sql = `SELECT * FROM product LIMIT ${items_per_page} OFFSET ${page_first_result}`;
+    db.query(sql,(err,result)=>{
+      if(err) console.log(err)
+      res.json({paginatedNotes:result})
+    })
+  })
+  
+  // Missed Code Line
+   
+  // // send pagination sql query
+  
+  // //if(1   1*10 |  2  2*10)
+  
+}
