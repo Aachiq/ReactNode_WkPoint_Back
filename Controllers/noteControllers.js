@@ -81,37 +81,16 @@ exports.generateExcelFromDbWithoutClient = (req,res)=>{
     ];
     // Add Array Rows
 	worksheet.addRows(jsonData);
-
-    // res.setHeader(
-    //     "Content-Type",
-    //     "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
-    //   );
-    //   res.setHeader(
-    //     "Content-Disposition",
-    //     "attachment; filename=" + "product.xlsx"
-    //   );
-
     // Write to File
     workbook.xlsx.writeFile("product.xlsx")
      .then(()=>{
         console.log("file saved!");
-        // fs.readFile('product.xlsx',(err,data)=>{
-        //     //console.log(data);
-        //     res.send(data);
-        // })
     })
      .catch((err)=> console.log(err))
 })
 }
 
 exports.dowloadExcel = (req,res)=>{
-//   fs.readFile('product.xlsx',(err,data)=>{
-    //console.log(data);
-    //res.send(data); this just send 'DataType as Blob Binary not reafing "dowloading" file'
-    // remember when we use only nodejs. it can be dowload just with res.send(data) 
-    // because it's in localhost:4000 of Back-end and here we have front 'localhost:3000' so we need to send it a front.
-    
-//   })
 res.sendFile("C:/Users/elhoc/Downloads/noteAppback-master (1)/noteAppback-master/product.xlsx")
 }
 
@@ -137,35 +116,31 @@ exports.generatePDFfromHtml = ()=>{
     }
 };
 // this can be be replaced by "select * from table".
-const users = [
-    {
-      name: "Shyam",
-      age: "26",
-    },
-    {
-      name: "Navjot",
-      age: "26",
-    },
-    {
-      name: "Vitthal",
-      age: "26",
-    },
-  ];
-  const document = {
-    html: html,
-    data: {
-      users: users,
-    },
-    path: "./output.pdf",
-    type: "",
-  };
-  //
-  pdf
-  .create(document, options)
-  .then((res) => {
-    console.log(res);
-  })
-  .catch((error) => {
-    console.error(error);
-  });
+let users = [];
+const sql="SELECT * FROM product";
+    db.query(sql,(err,result)=>{
+        if(err) console.log(err)
+        users = result;
+        console.log(users);
+        const document = {
+          html: html,
+          data: {
+            users: users,
+          },
+          path: "./output.pdf",
+          type: "",
+        };
+        //
+        pdf.create(document, options)
+        .then((res) => {
+          console.log(res);
+        })
+        .catch((error) => {
+          console.error(error);
+        });
+}) 
+}
+
+exports.dowloadPDF = (req,res)=> {
+  res.sendFile("D:/Working_ClonePROJ/ReactNode_WkPoint_Back/output.pdf")
 }
