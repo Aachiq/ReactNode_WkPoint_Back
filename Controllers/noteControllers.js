@@ -238,3 +238,30 @@ exports.handlePagination = (req,res)=> {
   // //if(1   1*10 |  2  2*10)
   
 }
+
+exports.getPublicNotif = (req,res)=>{
+  const sql ="SELECT * FROM notification_public WHERE isActive = 1" ;
+  db.query(sql,(err,result)=>{
+      if(err) console.log(err)
+      res.json({publicNotif:result});
+  })
+}
+exports.getPrivateNotif = (req,res)=>{
+  const sql ="SELECT * FROM notification_private WHERE id_client ='"+req.query.id+"'" ;
+  db.query(sql,(err,result)=>{
+      if(err) console.log(err)
+      res.json({privateNotif:result});
+  })
+
+}
+exports.sendPrivateNotif = (req,res)=>{
+  // if(condition_require_send_privateNotif){
+  //   sql = insert data in Notif Table for specific user
+  // }
+  const sql ="INSERT INTO notification_private (title,content,id_client) VALUES ('"+req.body.title+"','"+req.body.content+"','"+req.body.id_client+"')";
+  db.query(sql,(err,result)=>{
+      if(err) console.log(err)
+      res.send(res);
+  })
+
+}
